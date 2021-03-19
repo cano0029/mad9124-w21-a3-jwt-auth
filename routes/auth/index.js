@@ -1,3 +1,5 @@
+// install bcrypt, jsonwebtoken
+
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import express from 'express'
