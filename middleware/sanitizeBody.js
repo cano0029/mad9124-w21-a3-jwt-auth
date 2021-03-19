@@ -1,5 +1,5 @@
 import createDebug from "debug"
-const debug = createDebug("mad9124-w21-a2-mongo-crud:sanitize")
+const debug = createDebug("mad9124-w21-a3-jwt-auth:sanitize")
 import xss from "xss"
 
 const sanitize = (sourceString) => {
