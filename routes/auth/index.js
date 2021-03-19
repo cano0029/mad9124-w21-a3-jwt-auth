@@ -27,7 +27,6 @@ router.post('/users', sanitizeBody, async (req, res) => {
         ]
       })
     }
-
     await newUser.save()
     res.status(201).send({ data: newUser })
   } catch (err) {
