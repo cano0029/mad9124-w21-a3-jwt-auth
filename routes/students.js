@@ -1,17 +1,18 @@
 import createDebug from "debug"
 import sanitizeBody from "../middleware/sanitizeBody.js"
+import authenticate from '../middleware/authUser.js'
 import { Student } from '../models/index.js'
 import express from "express"
 
 const debug = createDebug("mad9124-w21-a3-jwt-auth:routes:students")
 const router = express.Router()
 
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
     const student = await Student.find()
     res.send({ data: student })
 })
 
-router.post("/", sanitizeBody, async (req, res) => {
+router.post("/", authenticate, sanitizeBody, async (req, res) => {
     try {
         const newStudent = new Student(req.sanitizedBody)
         await newStudent.save()
@@ -30,7 +31,7 @@ router.post("/", sanitizeBody, async (req, res) => {
     }
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticate, async (req, res) => {
     try {
         const student = await Student.findById(req.params.id)
         if (!student) {
@@ -42,7 +43,7 @@ router.get("/:id", async (req, res) => {
     }
 })
 
-router.put("/:id", sanitizeBody, async (req, res) => {
+router.put("/:id", authenticate, sanitizeBody, async (req, res) => {
     try {
         const student = await Student.findByIdAndUpdate(
             req.params.id,
@@ -60,7 +61,7 @@ router.put("/:id", sanitizeBody, async (req, res) => {
     }
 })
 
-router.patch("/:id", sanitizeBody, async (req, res) => {
+router.patch("/:id", authenticate, sanitizeBody, async (req, res) => {
     try {
         const student = await Student.findByIdAndUpdate(
             req.params.id,
