@@ -1,6 +1,7 @@
 import createDebug from 'debug'
 import sanitizeBody from '../middleware/sanitizeBody.js'
 import authenticate from '../middleware/authUser.js'
+import checkPermission from '../middleware/checkPermission.js'
 import { Course } from '../models/index.js'
 import express from 'express'
 
@@ -12,7 +13,7 @@ router.get('/', authenticate, async (req, res) => {
   res.send({data: course})
 })
 
-router.post('/', authenticate, sanitizeBody,  async (req, res) => {
+router.post('/', checkPermission, authenticate, sanitizeBody,  async (req, res) => {
   try {
     const newCourse = new Course(req.sanitizedBody)
     await newCourse.save()
@@ -43,7 +44,7 @@ router.get('/:id', authenticate, async (req, res) => {
   }
 })
 
-router.put('/:id', authenticate, sanitizeBody, async (req, res) => {
+router.put('/:id', checkPermission, authenticate, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id,
@@ -61,7 +62,7 @@ router.put('/:id', authenticate, sanitizeBody, async (req, res) => {
   }
 })
 
-router.patch('/:id', authenticate, sanitizeBody, async (req, res) => {
+router.patch('/:id', checkPermission, authenticate, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id, 
@@ -80,7 +81,7 @@ router.patch('/:id', authenticate, sanitizeBody, async (req, res) => {
   }
 })
 
-router.delete('/:id', authenticate, async (req, res) => {
+router.delete('/:id', checkPermission, authenticate, async (req, res) => {
   try {
     const course = await Course.findByIdAndRemove(req.params.id)
     if (!course) {
@@ -89,7 +90,7 @@ router.delete('/:id', authenticate, async (req, res) => {
     res.send({data: course})
   } catch (err) {
     sendResourceNotFound(req, res)
-  }s
+  }
 })
 
 function sendResourceNotFound(req, res){
