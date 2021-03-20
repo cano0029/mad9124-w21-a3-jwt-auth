@@ -13,7 +13,7 @@ const parseToken = function(headerValue) {
 }
 
 export default function (req, res, next) {
-  const headerValue = req.header('Authentication')
+  const headerValue = req.header('Authorization')
   const token = parseToken(headerValue)
   if(!token) {
     return res.status(401).send({

@@ -51,11 +51,6 @@ router.get('/users/me', authenticate, async (req, res) => {
 // authenticate user login and return an authentication token
 router.post('/tokens', sanitizeBody, async (req, res) => {
   const { email, password } = req.sanitizedBody
-  
-  // is the username valid based on email? will return either: user object or null - see User Model (refactored)
-  // if the supplied username is valid (it exists), we will now see if their password is also valid - see User Model (refactored)
-  // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password) - see User Model (refactored)
-  
   const authenticatedUser = await User.authenticate(email, password) // authenticated user being returned from User Model 
 
   if (!authenticatedUser) {
