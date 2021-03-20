@@ -1,6 +1,6 @@
 import createDebug from "debug"
 import sanitizeBody from "../middleware/sanitizeBody.js"
-import Student from "../models/Student.js"
+import { Student } from '../models/index.js'
 import express from "express"
 
 const debug = createDebug("mad9124-w21-a3-jwt-auth:routes:students")
