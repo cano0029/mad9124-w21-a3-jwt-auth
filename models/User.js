@@ -10,8 +10,13 @@ const schema = new mongoose.Schema ({
   lastName: { type: String, trim: true, maxlength: 64, required: true },
   email: { type: String, trim: true, maxlength: 512, required: true, unique: true }, 
   password: { type: String, trim: true, maxlength: 70, required: true }, 
-  isAdmin: { type: Boolean, required: true, default: false }
+  isAdmin: { type: Boolean, required: true, default: false },
+},
+{
+  timestamps: true, // TO DO: only include createdAt - includes both createdAt and updatedAt
 })
+
+// TO DO: username, ipAddress, didSucceed, createdAt??
 
 // if email and password are both valid, return a token
 schema.methods.generateAuthToken = function () { 
