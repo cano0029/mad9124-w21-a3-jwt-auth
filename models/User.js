@@ -19,23 +19,17 @@ schema.methods.generateAuthToken = function () { // do not use arrow function, n
 
 // authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
+  // is the username valid based on email? will return either: user object or null,
+  const user = await User.findOne({ email: email }) 
+
   // if the supplied username is valid (it exists), we will now see if their password is also valid
   const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
   const hashedPassword = user ? user.password : badHash // if we have a user, use the user password. If the user does not match (null), we will return bad hash (just to protect against hacks)
   
   // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password)
   const passwordDidMatch = await bcrypt.compare(password, hashedPassword)
-  if (!passwordDidMatch) {
-    return res.status(400).send({ 
-      errors: [
-        {
-          status: '400',
-          title: 'Validation Error',
-          description: 'Come back to this later',
-        },
-      ]
-    })
-  }
+  
+  return passwordDidMatch ? user : null // if password matched, return user. If it did not match, return null
 }
 
 const Model = mongoose.model('User', schema)

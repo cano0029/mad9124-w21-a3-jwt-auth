@@ -50,22 +50,24 @@ router.post('/users', sanitizeBody, async (req, res) => {
 // authenticate user login and return an authentication token
 router.post('/tokens', sanitizeBody, async (req, res) => {
   const { email, password } = req.sanitizedBody
-  const user = await User.findOne({ email: email }) // is the username valid? will return either: user object or null,
-  if (!user) {
-    return res.status(400).send({ 
+  
+  // is the username valid based on email? will return either: user object or null - see User Model (refactored)
+  // if the supplied username is valid (it exists), we will now see if their password is also valid - see User Model (refactored)
+  // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password) - see User Model (refactored)
+  
+  const authenticatedUser = User.authenticate(email, password) // authenticated user being returned from User Model 
+
+  if (!authenticatedUser) {
+    return res.status(401).send({ 
       errors: [
         {
-          status: '400',
-          title: 'Validation Error',
+          status: '401',
+          title: 'Authentication Error',
           description: 'Come back to this later',
         },
       ]
     })
   }
-
-  // if the supplied username is valid (it exists), we will now see if their password is also valid - see User Model (refactored)
-  
-  // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password) - see User Model (refactored)
 
   // if email and password are both valid, return a token - see User Model (refactored)
   res.status(201).send({ data: { token: user.generateAuthToken() } })
