@@ -1,9 +1,9 @@
 // All POST, PUT, PATCH, and DELETE resource paths should be limited to authenticated users with the isAdmin flag set to true.
 // role based permission
+import User from '../models/User.js'
 
 export default function (req, res, next) {
-  const user = User.findById(req.user)
-  if (user.isAdmin === true) {
+  if (User.isAdmin === true) {
     next()
   } else {
     return res.status(403).send({
