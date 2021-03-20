@@ -27,7 +27,6 @@ schema.statics.authenticate = async function (email, password) {
   
   // Is supplied password also valid? Compare our database password (hashed password) for that user, with the password supplied by the user (payload.password)
   const passwordDidMatch = await bcrypt.compare(password, hashedPassword)
-  
   return passwordDidMatch ? user : null // if password matched, return user. If it did not match, return null
 }
 
