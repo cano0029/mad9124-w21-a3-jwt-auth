@@ -1,4 +1,7 @@
+import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
+
+const jwtSecretKey = 'supersecretkey'
 
 const schema = new mongoose.Schema ({
   firstName: { type: String, trim: true, maxlength: 64, required: true }, 
@@ -7,6 +10,11 @@ const schema = new mongoose.Schema ({
   password: { type: String, trim: true, maxlength: 70, required: true }, 
   isAdmin: { type: Boolean, required: true, default: false }
 })
+
+schema.methods.generateAuthToken = function () { // do not use arrow function, need to use 'this'
+  const payload = { uid: this._id }
+  return jwt.sign(payload, jwtSecretKey)
+}
 
 const Model = mongoose.model('User', schema)
 

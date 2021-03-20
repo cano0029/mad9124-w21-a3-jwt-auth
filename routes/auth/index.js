@@ -81,10 +81,8 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
     })
   }
 
-  // if email and password are both valid, return a token
-  const payload = { uid: user._id }
-  const token = jwt.sign(payload, jwtSecretKey)
-  res.status(201).send({ data: {token} })
+  // if email and password are both valid, return a token - see User Model
+  res.status(201).send({ data: { token: user.generateAuthToken() } })
 })
 
 export default router
