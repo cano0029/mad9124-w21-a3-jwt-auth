@@ -1,21 +1,13 @@
 // install bcrypt, jsonwebtoken
-
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
 import express from 'express'
 import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 const router = express.Router()
 
-const saltRounds = 14
-const jwtSecretKey = 'supersecretkey'
-
 // create a user
 router.post('/users', sanitizeBody, async (req, res) => {
   try {
     const newUser = new User(req.sanitizedBody)
-    newUser.password = await bcrypt.hash(newUser.password, saltRounds)
-    
     const userAlreadyExists = Boolean(
       await User.countDocuments({ email : newUser.email })
     )
@@ -32,6 +24,7 @@ router.post('/users', sanitizeBody, async (req, res) => {
         ]
       })
     }
+    
     await newUser.save()
     res.status(201).send({ data: newUser })
   } catch (err) {

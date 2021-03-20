@@ -31,6 +31,12 @@ schema.statics.authenticate = async function (email, password) {
   return passwordDidMatch ? user : null // if password matched, return user. If it did not match, return null
 }
 
+// changing and saving password
+schema.pre('save', async function (next) {
+  if(this.isModified('password')) return next() // if password has not been changed
+  this.password = await bcrypt.hash(this.password, saltRounds) // if it has been changed, save it and then call next()
+  return next()
+})
 const Model = mongoose.model('User', schema)
 
 export default Model
