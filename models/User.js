@@ -19,6 +19,14 @@ schema.methods.generateAuthToken = function () {
   return jwt.sign(payload, jwtSecretKey)
 }
 
+// to get user from route handlers, will have password and versions protected
+schema.methods.toJSON = function () {
+  const obj = this.toObject()
+  delete obj.password
+  delete obj.__v
+  return obj
+}
+
 // authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
   const user = await this.findOne({ email: email }) // is the username valid based on email? will return either: user object or null,
@@ -36,13 +44,6 @@ schema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, saltRounds) // if it has been changed, save it and then call next()
   return next()
 })
-
-schema.methods.toJSON = function () {
-  const obj = this.toObject()
-  delete obj.password
-  delete obj.__v
-  return obj
-}
 
 const Model = mongoose.model('User', schema)
 
