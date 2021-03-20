@@ -30,6 +30,7 @@ schema.methods.toJSON = function () {
 // authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
   const user = await this.findOne({ email: email }) // is the username valid based on email? will return either: user object or null,
+  
   const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
   const hashedPassword = user ? user.password : badHash // if we have a user, use the user password. If the user does not match (null), we will return bad hash (just to protect against hacks)
   
