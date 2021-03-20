@@ -13,7 +13,7 @@ router.get('/', authenticate, async (req, res) => {
   res.send({data: course})
 })
 
-router.post('/', checkPermission, authenticate, sanitizeBody,  async (req, res) => {
+router.post('/', authenticate, checkPermission, sanitizeBody,  async (req, res) => {
   try {
     const newCourse = new Course(req.sanitizedBody)
     await newCourse.save()
@@ -44,7 +44,7 @@ router.get('/:id', authenticate, async (req, res) => {
   }
 })
 
-router.put('/:id', checkPermission, authenticate, sanitizeBody, async (req, res) => {
+router.put('/:id', authenticate, checkPermission, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id,
@@ -62,7 +62,7 @@ router.put('/:id', checkPermission, authenticate, sanitizeBody, async (req, res)
   }
 })
 
-router.patch('/:id', checkPermission, authenticate, sanitizeBody, async (req, res) => {
+router.patch('/:id', authenticate, checkPermission, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id, 
@@ -81,7 +81,7 @@ router.patch('/:id', checkPermission, authenticate, sanitizeBody, async (req, re
   }
 })
 
-router.delete('/:id', checkPermission, authenticate, async (req, res) => {
+router.delete('/:id', authenticate, checkPermission, async (req, res) => {
   try {
     const course = await Course.findByIdAndRemove(req.params.id)
     if (!course) {
