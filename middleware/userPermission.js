@@ -1,12 +1,9 @@
-// role based permission - if admin, allow them to post, put, patch, delete
-import User from '../models/User.js'
+// role based permission - if admin, allow them to post, put, patch, delete resource paths
 
 export default function (req, res, next) {
-  // TO DO: fix. Only reads User model schema isAdmin which defaults to false
-  // I need it to read the specific user's isAdmin property.... but how?? 
   req.user = { isAdmin: true}
   const userPermission = req.user
-  console.log(userPermission) // outputs false
+  // console.log(userPermission) 
   
   if (userPermission) {
     next()
