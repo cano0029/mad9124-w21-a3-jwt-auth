@@ -1,17 +1,18 @@
 import createDebug from 'debug'
 import sanitizeBody from '../middleware/sanitizeBody.js'
+import authenticate from '../middleware/authUser.js'
 import { Course } from '../models/index.js'
 import express from 'express'
 
 const debug = createDebug('mad9124-w21-a3-jwt-auth:routes:courses')
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   const course = await Course.find().populate('students')
   res.send({data: course})
 })
 
-router.post('/', sanitizeBody, async (req, res) => {
+router.post('/', authenticate, sanitizeBody,  async (req, res) => {
   try {
     const newCourse = new Course(req.sanitizedBody)
     await newCourse.save()
@@ -30,7 +31,7 @@ router.post('/', sanitizeBody, async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticate, async (req, res) => {
   try {
     const course = await Course.findById(req.params.id).populate('students')
     if (!course) {
@@ -42,7 +43,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.put('/:id', sanitizeBody, async (req, res) => {
+router.put('/:id', authenticate, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id,
@@ -60,7 +61,7 @@ router.put('/:id', sanitizeBody, async (req, res) => {
   }
 })
 
-router.patch('/:id', sanitizeBody, async (req, res) => {
+router.patch('/:id', authenticate, sanitizeBody, async (req, res) => {
   try {
     const course = await Course.findByIdAndUpdate(
       req.params.id, 
@@ -79,7 +80,7 @@ router.patch('/:id', sanitizeBody, async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try {
     const course = await Course.findByIdAndRemove(req.params.id)
     if (!course) {
