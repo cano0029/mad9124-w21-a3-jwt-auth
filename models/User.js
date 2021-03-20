@@ -36,6 +36,14 @@ schema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, saltRounds) // if it has been changed, save it and then call next()
   return next()
 })
+
+schema.methods.toJSON = function () {
+  const obj = this.toObject()
+  delete obj.password
+  delete obj.__v
+  return obj
+}
+
 const Model = mongoose.model('User', schema)
 
 export default Model
