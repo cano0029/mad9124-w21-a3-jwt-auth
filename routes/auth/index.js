@@ -63,23 +63,9 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
     })
   }
 
-  // if the supplied username is valid (it exists), we will now see if their password is also valid
-  const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
-  const hashedPassword = user ? user.password : badHash // if we have a user, use the user password. If the user does not match (return null), we will return bad hash (just to protect against hacks)
+  // if the supplied username is valid (it exists), we will now see if their password is also valid - see User Model (refactored)
   
-  // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password)
-  const passwordDidMatch = await bcrypt.compare(password, hashedPassword)
-  if (!passwordDidMatch) {
-    return res.status(400).send({ 
-      errors: [
-        {
-          status: '400',
-          title: 'Validation Error',
-          description: 'Come back to this later',
-        },
-      ]
-    })
-  }
+  // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password) - see User Model (refactored)
 
   // if email and password are both valid, return a token - see User Model (refactored)
   res.status(201).send({ data: { token: user.generateAuthToken() } })
