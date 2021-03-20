@@ -1,7 +1,7 @@
 import createDebug from "debug"
 import sanitizeBody from "../middleware/sanitizeBody.js"
 import authenticate from '../middleware/authUser.js'
-import checkPermission from '../middleware/checkPermission.js'
+import checkPermission from '../middleware/userPermission.js'
 import { Student } from '../models/index.js'
 import express from "express"
 
