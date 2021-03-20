@@ -2,6 +2,7 @@
 import express from 'express'
 import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
+import authenticate from '../../middleware/authUser.js'
 const router = express.Router()
 
 // create or register a new user
@@ -41,8 +42,9 @@ router.post('/users', sanitizeBody, async (req, res) => {
 })
 
 // 
-router.get('/users/me', async (req, res) => {
-  
+router.get('/users/me', authenticate, async (req, res) => {
+  const user = await User.findById(req.user._id).select('-password -__v')
+  res.send({ data: user })
 })
 
 // authenticate user login and return an authentication token
