@@ -6,8 +6,6 @@ import express from 'express'
 const debug = createDebug('mad9124-w21-a3-jwt-auth:routes:courses')
 const router = express.Router()
 
-
-
 router.get('/', async (req, res) => {
   const course = await Course.find().populate('students')
   res.send({data: course})
@@ -80,7 +78,6 @@ router.patch('/:id', sanitizeBody, async (req, res) => {
     sendResourceNotFound(req, res)
   }
 })
-
 
 router.delete('/:id', async (req, res) => {
   try {

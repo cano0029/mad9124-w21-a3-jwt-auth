@@ -4,7 +4,7 @@ import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 const router = express.Router()
 
-// create a user
+// create or register a new user
 router.post('/users', sanitizeBody, async (req, res) => {
   try {
     const newUser = new User(req.sanitizedBody)
@@ -38,6 +38,11 @@ router.post('/users', sanitizeBody, async (req, res) => {
       ]
     })
   }
+})
+
+// 
+router.get('/users/me', async (req, res) => {
+  
 })
 
 // authenticate user login and return an authentication token
