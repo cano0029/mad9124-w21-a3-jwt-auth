@@ -16,7 +16,7 @@ const schema = new mongoose.Schema ({
 // if email and password are both valid, return a token
 schema.methods.generateAuthToken = function () { 
   const payload = { uid: this._id }
-  return jwt.sign(payload, jwtSecretKey)
+  return jwt.sign(payload, jwtSecretKey, { expiresIn: '1h', algorithm: 'HS256' })
 }
 
 // to get user from route handlers, will have password and versions protected
