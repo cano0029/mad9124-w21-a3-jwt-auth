@@ -62,8 +62,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
       errors: [
         {
           status: '401',
-          title: 'Authentication Error',
-          description: 'Come back to this later',
+          description: 'Incorrect username or password',
         },
       ]
     })
