@@ -43,7 +43,8 @@ router.post('/users', sanitizeBody, async (req, res) => {
 
 // 
 router.get('/users/me', authenticate, async (req, res) => {
-  const user = await User.findById(req.user._id).select('-password -__v')
+  const id = req.user._id
+  const user = await User.findById(id).select('-password -__v')
   res.send({ data: user })
 })
 
