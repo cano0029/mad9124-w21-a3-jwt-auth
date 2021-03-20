@@ -55,7 +55,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
   // if the supplied username is valid (it exists), we will now see if their password is also valid - see User Model (refactored)
   // compare our database password (hashed password) for that user, with the password supplied by the user (payload.password) - see User Model (refactored)
   
-  const authenticatedUser = User.authenticate(email, password) // authenticated user being returned from User Model 
+  const authenticatedUser = await User.authenticate(email, password) // authenticated user being returned from User Model 
 
   if (!authenticatedUser) {
     return res.status(401).send({ 
@@ -69,7 +69,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
   }
 
   // if email and password are both valid, return a token - see User Model (refactored)
-  res.status(201).send({ data: { token: user.generateAuthToken() } })
+  res.status(201).send({ data: { token: authenticatedUser.generateAuthToken() } })
 })
 
 export default router

@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 
+const saltRounds = 14
 const jwtSecretKey = 'supersecretkey'
 
 const schema = new mongoose.Schema ({
@@ -20,7 +22,7 @@ schema.methods.generateAuthToken = function () { // do not use arrow function, n
 // authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
   // is the username valid based on email? will return either: user object or null,
-  const user = await User.findOne({ email: email }) 
+  const user = await this.findOne({ email: email }) 
 
   // if the supplied username is valid (it exists), we will now see if their password is also valid
   const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
