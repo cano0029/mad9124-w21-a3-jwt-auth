@@ -1,34 +1,42 @@
 {
-    "name": "mad9124-w21-a3-jwt-auth",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "DEBUG=mad9124-w21-a3-jwt-auth* nodemon server.js"
-    },
-    "keywords": [
-        "MAD9124",
-        "W21"
-    ],
-    "author": "Johanna Cano <cano0029@algonquinlive.com>",
-    "contributors": [
-        "Robert McKenney <mckennr@algonquincollege.com>"
-    ],
-    "license": "ISC",
-    "private": true,
-    "dependencies": {
-        "bcrypt": "^5.0.1",
-        "debug": "^4.3.1",
-        "express": "^4.17.1",
-        "express-mongo-sanitize": "^2.0.2",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.12.1",
-        "morgan": "^1.10.0",
-        "xss": "^1.0.8"
-    },
-    "devDependencies": {
-        "nodemon": "^2.0.7"
-    }
+  "name": "mad9124-w21-a3-jwt-auth",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "DEBUG=mad9124-w21-a3-jwt-auth* nodemon server.js"
+  },
+  "keywords": [
+    "MAD9124",
+    "W21"
+  ],
+  "author": "Johanna Cano <cano0029@algonquinlive.com>",
+  "contributors": [
+    "Robert McKenney <mckennr@algonquincollege.com>"
+  ],
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "debug": "^4.3.1",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.1",
+    "morgan": "^1.10.0",
+    "xss": "^1.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cano0029/mad9124-w21-a3-jwt-auth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cano0029/mad9124-w21-a3-jwt-auth/issues"
+  },
+  "homepage": "https://github.com/cano0029/mad9124-w21-a3-jwt-auth#readme",
+  "description": ""
 }
