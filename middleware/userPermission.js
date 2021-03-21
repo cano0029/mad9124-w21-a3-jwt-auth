@@ -8,12 +8,12 @@ export default function (req, res, next) {
   if (userPermission) {
     next()
   } else {
-    return res.status(403).send({
+    return res.status(401).send({
       errors: [
         {
           status: '401',
           title: 'Unauthorized',
-          description: 'You do not have the correct permission to perform this action'
+          description: 'You do not have the correct permissions to perform this action'
         },
       ]
     })
