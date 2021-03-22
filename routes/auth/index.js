@@ -1,12 +1,9 @@
-// install bcrypt, jsonwebtoken
 import express from 'express'
 import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 import authenticate from '../../middleware/authUser.js'
 const router = express.Router()
 
-// create or register a new user
-// TO DO: fix problem, I can only create a user if isAdmin is set to true
 router.post('/users', sanitizeBody, async (req, res) => {
   try {
     const newUser = new User(req.sanitizedBody)
@@ -49,10 +46,9 @@ router.get('/users/me', authenticate, async (req, res) => {
   res.send({ data: user })
 })
 
-// authenticate user login and return an authentication token
 router.post('/tokens', sanitizeBody, async (req, res) => {
   const { email, password } = req.sanitizedBody
-  const authenticatedUser = await User.authenticate(email, password) // authenticated user being returned from User Model 
+  const authenticatedUser = await User.authenticate(email, password)
 
   if (!authenticatedUser) {
     return res.status(401).send({ 

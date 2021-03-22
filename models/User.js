@@ -11,12 +11,6 @@ const schema = new mongoose.Schema ({
   email: { type: String, trim: true, lowercase: true, maxlength: 512, required: true, unique: true }, 
   password: { type: String, trim: true, maxlength: 70, required: true }, 
   isAdmin: { type: Boolean, required: true, default: false },
-
-  // TO DO: separate into diff model and use as 'ref'??
-  // authentication_attempts: {type: Schema.Types.ObjectId, ref: "UserLoginAttempts"},
-    //username: { type: String, maxlength: 64, required: true }.
-    // ipAddress: { type: String, maxlength: 64, required: true},
-    //didSucceed: { type: Boolean, required: true },
     createdAt: { type: Date, required: true, default: Date.now}
 })
 
@@ -36,19 +30,17 @@ schema.methods.toJSON = function () {
 
 // authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
-  const user = await this.findOne({ email: email }) // is the username valid based on email? will return either: user object or null,
+  const user = await this.findOne({ email: email }) 
   const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
-  const hashedPassword = user ? user.password : badHash // if we have a user, use the user password. If the user does not match (null), we will return bad hash (just to protect against hacks)
-  
-  // Is supplied password also valid? Compare our database password (hashed password) for that user, with the password supplied by the user (payload.password)
+  const hashedPassword = user ? user.password : badHash
   const passwordDidMatch = await bcrypt.compare(password, hashedPassword)
-  return passwordDidMatch ? user : null // if password matched, return user. If it did not match, return null
+  return passwordDidMatch ? user : null
 }
 
 // changing and saving password
 schema.pre('save', async function (next) {
-  if(!this.isModified('password')) return next() // if password has not been changed
-  this.password = await bcrypt.hash(this.password, saltRounds) // if it has been changed, save it and then call next()
+  if(!this.isModified('password')) return next() 
+  this.password = await bcrypt.hash(this.password, saltRounds) 
   next()
 })
 
