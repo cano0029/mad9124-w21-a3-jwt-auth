@@ -1,11 +1,11 @@
 // role based permission - if admin, allow them to post, put, patch, delete resource paths
+import User from '../models/User.js'
 
-export default function (req, res, next) {
-  req.user = { isAdmin: true}
-  const userPermission = req.user
+const checkPermission = async function (req, res, next) {
+  const user = await User.findById(req.user)
   // console.log(userPermission) 
   
-  if (userPermission) {
+  if (user.isAdmin == true) {
     next()
   } else {
     return res.status(401).send({
@@ -13,9 +13,11 @@ export default function (req, res, next) {
         {
           status: '401',
           title: 'Unauthorized',
-          description: 'You do not have the correct permissions to perform this action'
+          description: 'You do not have the correct permission to perform this action'
         },
       ]
     })
   }
 }
+
+export default checkPermission 

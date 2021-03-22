@@ -8,15 +8,17 @@ const jwtSecretKey = 'supersecretkey'
 const schema = new mongoose.Schema ({
   firstName: { type: String, trim: true, maxlength: 64, required: true }, 
   lastName: { type: String, trim: true, maxlength: 64, required: true },
-  email: { type: String, trim: true, maxlength: 512, required: true, unique: true }, 
+  email: { type: String, trim: true, lowercase: true, maxlength: 512, required: true, unique: true }, 
   password: { type: String, trim: true, maxlength: 70, required: true }, 
   isAdmin: { type: Boolean, required: true, default: false },
-},
-{
-  timestamps: true, // TO DO: only include createdAt - includes both createdAt and updatedAt
-})
 
-// TO DO: username, ipAddress, didSucceed, createdAt??
+  // TO DO: separate into diff model and use as 'ref'??
+  // authentication_attempts: {type: Schema.Types.ObjectId, ref: "UserLoginAttempts"},
+    //username: { type: String, maxlength: 64, required: true }.
+    // ipAddress: { type: String, maxlength: 64, required: true},
+    //didSucceed: { type: Boolean, required: true },
+    createdAt: { type: Date, required: true, default: Date.now}
+})
 
 // if email and password are both valid, return a token
 schema.methods.generateAuthToken = function () { 

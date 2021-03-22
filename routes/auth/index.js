@@ -6,6 +6,7 @@ import authenticate from '../../middleware/authUser.js'
 const router = express.Router()
 
 // create or register a new user
+// TO DO: fix problem, I can only create a user if isAdmin is set to true
 router.post('/users', sanitizeBody, async (req, res) => {
   try {
     const newUser = new User(req.sanitizedBody)
@@ -27,7 +28,7 @@ router.post('/users', sanitizeBody, async (req, res) => {
     }
     
     await newUser.save()
-    res.status(201).send({ data: newUser })
+    res.status(201).send({ data: newUser})
   } catch (err) {
     res.status(500).send({
       errors: [
@@ -65,7 +66,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
   }
 
   // if email and password are both valid, return a token - see User Model (refactored)
-  res.status(201).send({ data: { token: authenticatedUser.generateAuthToken() } })
+  res.status(201).send({ message: "Login successful", data: { token: authenticatedUser.generateAuthToken() } })
 })
 
 export default router
