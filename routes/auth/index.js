@@ -42,7 +42,8 @@ router.post('/users', sanitizeBody, async (req, res) => {
 // retrieve a currently logged-in user
 router.get('/users/me', authenticate, async (req, res) => {
   const id = req.user._id
-  const user = await User.findById(id)
+  const user = await User.findById(id).populate('authentication_attempts')
+  
   res.send({ data: user })
 })
 
