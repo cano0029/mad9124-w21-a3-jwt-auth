@@ -7,6 +7,6 @@ const schema = new mongoose.Schema({
   createdAt: { type: Date, required: true}
 })
 
-const Model = mongoose.model('Attempts', schema)
+const Model = mongoose.model('Authentication_Attempts', schema)
 
 export default Model
