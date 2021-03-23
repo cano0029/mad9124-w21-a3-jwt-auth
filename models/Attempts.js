@@ -5,7 +5,8 @@ const schema = new mongoose.Schema({
   username: { type: String, maxlength: 64, required: true },
   ipAddress: { type: String, maxlength: 64, required: true },
   didSucceed: { type: Boolean, required: true },
-  createdAt: { type: Date, required: true, default: Date.now }
+  createdAt: { type: Date, required: true, default: Date.now },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 })
 
 const Model = mongoose.model('Attempts', schema)
