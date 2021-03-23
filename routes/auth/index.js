@@ -62,7 +62,6 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
     })
   }
 
-  // if email and password are both valid, return a token - see User Model (refactored)
   res.status(201).send({ message: "Login successful", data: { token: authenticatedUser.generateAuthToken() } })
 })
 

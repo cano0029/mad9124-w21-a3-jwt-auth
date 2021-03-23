@@ -18,5 +18,4 @@ app.use('/auth', authRouter)
 app.use("/api/students", studentsRouter)
 app.use("/api/courses", coursesRouter)
 
-
 export default app

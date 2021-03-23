@@ -15,13 +15,11 @@ const schema = new mongoose.Schema ({
   authentication_attempts: { type: mongoose.Schema.Types.ObjectId, ref: 'Attempts' }
 })
 
-// if email and password are both valid, return a token
 schema.methods.generateAuthToken = function () { 
   const payload = { uid: this._id }
   return jwt.sign(payload, jwtSecretKey, { expiresIn: '1h', algorithm: 'HS256' })
 }
 
-// to get user from route handlers, will have password and versions protected
 schema.methods.toJSON = function () {
   const obj = this.toObject()
   delete obj.password
@@ -29,7 +27,6 @@ schema.methods.toJSON = function () {
   return obj
 }
 
-// authenticate login info (email and password)
 schema.statics.authenticate = async function (email, password) {
   const user = await this.findOne({ email: email }) 
   const badHash = `$2b$${saltRounds}$invalidusernameaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
@@ -38,7 +35,6 @@ schema.statics.authenticate = async function (email, password) {
   return passwordDidMatch ? user : null
 }
 
-// changing and saving password
 schema.pre('save', async function (next) {
   if(!this.isModified('password')) return next() 
   this.password = await bcrypt.hash(this.password, saltRounds) 
