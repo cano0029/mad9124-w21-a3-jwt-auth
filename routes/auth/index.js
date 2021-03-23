@@ -2,6 +2,7 @@ import express from 'express'
 import User from '../../models/User.js'
 import sanitizeBody from '../../middleware/sanitizeBody.js'
 import authenticate from '../../middleware/authUser.js'
+import authAttempts from '../../models/AuthAttempts.js'
 const router = express.Router()
 
 router.post('/users', sanitizeBody, async (req, res) => {
@@ -39,19 +40,26 @@ router.post('/users', sanitizeBody, async (req, res) => {
   }
 })
 
-// retrieve a currently logged-in user
 router.get('/users/me', authenticate, async (req, res) => {
   const id = req.user._id
-  const user = await User.findById(id).populate('authentication_attempts')
-  
-  // const ip = req.ip
-  // console.log(ip)
+  const user = await User.findById(id)
   res.send({ data: user})
 })
 
 router.post('/tokens', sanitizeBody, async (req, res) => {
   const { email, password } = req.sanitizedBody
   const authenticatedUser = await User.authenticate(email, password)
+  let didSucceed;
+
+    authenticatedUser ? didSucceed = true : didSucceed = false;
+    const userLoginInfo = {
+        username: email,
+        ipAddress: req.ip,
+        didSucceed: didSucceed, 
+        createdAt: Date.now()
+    }
+    const newLogin = new authAttempts(userLoginInfo);
+    await newLogin.save()
 
   if (!authenticatedUser) {
     return res.status(401).send({ 

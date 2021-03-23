@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
-import Attempts from './Attempts.js'
+import Attempts from './AuthAttempts.js'
 
 const saltRounds = 14
 const jwtSecretKey = 'supersecretkey'
@@ -12,7 +12,6 @@ const schema = new mongoose.Schema ({
   email: { type: String, trim: true, lowercase: true, maxlength: 512, required: true, unique: true }, 
   password: { type: String, trim: true, maxlength: 70, required: true }, 
   isAdmin: { type: Boolean, required: true, default: false },
-  authentication_attempts: { type: mongoose.Schema.Types.ObjectId, ref: 'Attempts' }
 })
 
 schema.methods.generateAuthToken = function () { 
