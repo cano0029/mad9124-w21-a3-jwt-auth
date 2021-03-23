@@ -1,7 +1,6 @@
 import User from "../models/User.js"
 
 export default async function checkPermission (req, res, next) {
-    // TO DO: wrap in try catch
     const user = await User.findById(req.user)
     if (user.isAdmin == true) {
         next()
