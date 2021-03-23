@@ -44,7 +44,9 @@ router.get('/users/me', authenticate, async (req, res) => {
   const id = req.user._id
   const user = await User.findById(id).populate('authentication_attempts')
   
-  res.send({ data: user })
+  // const ip = req.ip
+  // console.log(ip)
+  res.send({ data: user})
 })
 
 router.post('/tokens', sanitizeBody, async (req, res) => {
